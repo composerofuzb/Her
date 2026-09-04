@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user_model.dart';
 import '../../domain/models/user.dart';
 import '../services/firestore_service.dart';
@@ -7,6 +10,13 @@ import 'auth_repository.dart';
 import '../../domain/models/character_customization.dart';
 
 final firestoreServiceProvider = Provider<FirestoreService>((ref) {
+  try {
+    if (Firebase.apps.isNotEmpty) {
+      return FirestoreService(firestore: FirebaseFirestore.instance);
+    }
+  } catch (e) {
+    debugPrint('Firebase not available for FirestoreService: $e');
+  }
   return FirestoreService();
 });
 

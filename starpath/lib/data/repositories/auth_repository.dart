@@ -1,7 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import '../services/auth_service.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
+  try {
+    if (Firebase.apps.isNotEmpty) {
+      return AuthService(firebaseAuth: fb_auth.FirebaseAuth.instance);
+    }
+  } catch (e) {
+    debugPrint('Firebase not available for AuthService: $e');
+  }
   return AuthService();
 });
 
@@ -41,6 +51,10 @@ class AuthRepository {
       email: email,
       password: password,
     );
+  }
+
+  void signInDemo({required bool isGuardian}) {
+    _authService.signInDemo(isGuardian: isGuardian);
   }
 
   Future<void> signOut() => _authService.signOut();

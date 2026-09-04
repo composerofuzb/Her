@@ -13,5 +13,8 @@ starpath/build/
 starpath/.flutter-plugins-dependencies
 starpath/.widget_preview/
 
+# Local toolchains
+.toolchain/
+
 # Local database
 *.db-journal

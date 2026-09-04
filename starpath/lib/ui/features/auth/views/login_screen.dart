@@ -8,7 +8,6 @@ import '../../../../core/widgets/star_path_button.dart';
 import '../view_models/login_view_model.dart';
 import '../../../../domain/models/user.dart';
 import '../../../../data/repositories/user_repository.dart';
-import '../../../../data/repositories/auth_repository.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -18,7 +17,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  final _emailCtrl = TextEditingController(text: 'sister@starpath.app');
+  final _emailCtrl = TextEditingController(text: 'sevinch@gmail.com');
   final _passCtrl = TextEditingController(text: 'password123');
   bool _obscurePassword = true;
 
@@ -48,12 +47,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _demoLogin({required bool isGuardian}) async {
     final userRepo = ref.read(userRepositoryProvider);
-    final authRepo = ref.read(authRepositoryProvider);
+    final loginVm = ref.read(loginViewModelProvider.notifier);
 
-    final email = isGuardian ? 'guardian@starpath.app' : 'sister@starpath.app';
-
-    // Ensure mock users exist
-
+    // Pre-populate mock users
     const sister = User(
       uid: 'demo_sister_uid',
       displayName: 'Maya',
@@ -65,6 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       lastLogDate: '2026-09-04',
       streakFreezes: 1,
       avatarStage: 2,
+      birthDate: '2014-01-12',
     );
 
     const guardian = User(
@@ -74,10 +71,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       linkedUid: 'demo_sister_uid',
     );
 
-
     await userRepo.createUser(sister);
     await userRepo.createUser(guardian);
-    await authRepo.signIn(email: email, password: 'password123');
+
+    // Trigger demo auth stream update so router navigates cleanly
+    loginVm.signInDemo(isGuardian: isGuardian);
 
     if (mounted) {
       context.go(isGuardian ? '/guardian' : '/sister');
