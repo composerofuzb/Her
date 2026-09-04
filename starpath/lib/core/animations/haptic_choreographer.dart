@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
-import 'package:vibration/vibration.dart';
 
 /// Choreographs tactile haptic feedback for StarPath gamification events.
-/// Wraps both Flutter's HapticFeedback and the device vibration motor.
+/// Uses Flutter's high-performance native HapticFeedback engine.
 class HapticChoreographer {
   HapticChoreographer._();
 
@@ -58,26 +57,17 @@ class HapticChoreographer {
 
   /// Drumroll/rumble haptic pattern as Sunday reward chest opens
   static Future<void> onRewardChestOpen() async {
-    final hasVibrator = await Vibration.hasVibrator();
-    if (hasVibrator) {
-      await Vibration.vibrate(pattern: [0, 80, 100, 120, 100, 250]);
-    } else {
-      for (int i = 0; i < 4; i++) {
-        await HapticFeedback.mediumImpact();
-        await Future.delayed(const Duration(milliseconds: 90));
-      }
-      await HapticFeedback.heavyImpact();
+    for (int i = 0; i < 4; i++) {
+      await HapticFeedback.mediumImpact();
+      await Future.delayed(const Duration(milliseconds: 90));
     }
+    await HapticFeedback.heavyImpact();
   }
 
-  /// Long vibrate for streak broken
+  /// Vibrate pulse for streak broken
   static Future<void> onStreakBroken() async {
-    final hasVibrator = await Vibration.hasVibrator();
-    if (hasVibrator) {
-      await Vibration.vibrate(duration: 500);
-    } else {
-      await HapticFeedback.heavyImpact();
-    }
+    await HapticFeedback.heavyImpact();
+    await Future.delayed(const Duration(milliseconds: 120));
+    await HapticFeedback.heavyImpact();
   }
-
 }
