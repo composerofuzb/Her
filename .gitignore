@@ -1,0 +1,17 @@
+# Dependencies & Build artifacts
+node_modules/
+dist/
+*.local
+.DS_Store
+*.log
+
+# Starpath flutter ignored items
+starpath/.dart_tool/
+starpath/.pub-cache/
+starpath/.pub/
+starpath/build/
+starpath/.flutter-plugins-dependencies
+starpath/.widget_preview/
+
+# Local database
+*.db-journal
