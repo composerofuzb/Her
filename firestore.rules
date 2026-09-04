@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile documents (Guardian & Sister)
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null;
+    }
+
+    // Daily KPI logs & school scores
+    match /logs/{logId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Unlocked badges and milestone achievements
+    match /achievements/{achievementId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Weekly quests and missions
+    match /quests/{questId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
