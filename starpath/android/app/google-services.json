@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562491267718",
+    "project_id": "starpath-kpi",
+    "storage_bucket": "starpath-kpi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562491267718:android:85d9dc36fc22514d160f07",
+        "android_client_info": {
+          "package_name": "com.starpath.starpath"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAelU1hfyZV8Jo5cug22305GJ3U1DR-2mM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
